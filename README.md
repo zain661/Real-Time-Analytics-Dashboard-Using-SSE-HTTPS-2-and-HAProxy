@@ -1,4 +1,5 @@
-﻿# Approach 4: HTTP/2 + SSE + Stateful In-Memory Aggregation + MySQL
+YouTube Video link: https://www.youtube.com/watch?v=SHUl8RtHpQM
+ # Approach 4: HTTP/2 + SSE + Stateful In-Memory Aggregation + MySQL
 
 ## 🎯 Chosen Scenario: HTTP/2 Streaming with SSE, Stateful In-Memory Aggregation, and MySQL
 
