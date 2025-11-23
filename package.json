@@ -1,0 +1,48 @@
+{
+  "name": "real-time-analytics-dashboard",
+  "version": "1.0.0",
+  "description": "Real-Time Analytics Dashboard with HTTP/1.1, WebSocket, and HTTP/2 Streaming",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start1": "nodemon approach1/app/server.js",
+    "start2": "nodemon approach2/app/server.js",
+    "start4": "nodemon approach4/server.js",
+    "simulate4": "node approach4/client_simulator.js",
+    "loadtest4": "node approach4/load-tester.js",
+    "loadtest4-lb": "node approach4/load-tester-lb.js",
+    "loadtest4-client-lb": "node approach4/load-tester-client-lb.js",
+    "loadtest4-high": "node --max-old-space-size=4096 approach4/load-tester-high-scale.js",
+    "dashboard-viewers": "node approach4/dashboard-viewer-simulator.js",
+    "test4": "npm run loadtest4",
+    "dev4": "concurrently \"npm run start4\" \"npm run simulate4\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zain661/Real-Time-Analytics-Dashboard.git"
+  },
+  "author": "Basma Skaik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zain661/Real-Time-Analytics-Dashboard/issues"
+  },
+  "homepage": "https://github.com/zain661/Real-Time-Analytics-Dashboard#readme",
+  "dependencies": {
+    "async-mutex": "^0.5.0",
+    "bull": "^4.16.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "mkcert": "^3.2.0",
+    "mysql2": "^3.15.3",
+    "redis": "^5.8.3",
+    "sequelize": "^6.37.7",
+    "socket.io": "^4.8.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,159 @@
+services:
+  # ============================================
+  # MySQL Database
+  # ============================================
+  db:
+    image: mysql:8.0
+    container_name: analytics-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: real_time_analytics_dashboard
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - analytics-network
+  # ============================================
+  # App Instances
+  # ============================================
+  app1:
+    build: .
+    container_name: analytics-app1
+    command: npm run start4
+    volumes:
+      - .:/app
+      - /app/node_modules
+    expose:
+      - "4002"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: real_time_analytics_dashboard
+      DB_PORT: 3306
+      HTTP2_PORT: 4002
+      INSTANCE_NAME: app1
+    restart: always
+    networks:
+      - analytics-network
+    #IMPORTANT: Add healthcheck for monitoring
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "--http1.1", "http://localhost:4002/health"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 3
+    #   start_period: 15s
+
+  app2:
+    build: .
+    container_name: analytics-app2
+    command: npm run start4
+    volumes:
+      - .:/app
+      - /app/node_modules
+    expose:
+      - "4002"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: real_time_analytics_dashboard
+      DB_PORT: 3306
+      HTTP2_PORT: 4002
+      INSTANCE_NAME: app2
+    restart: always
+    networks:
+      - analytics-network
+    # healthcheck:
+    #   test: ["CMD", "wget", "--spider", "-q", "http://localhost:4002/health"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 3
+    #   start_period: 10s
+
+  app3:
+    build: .
+    container_name: analytics-app3
+    command: npm run start4
+    volumes:
+      - .:/app
+      - /app/node_modules
+    expose:
+      - "4002"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: real_time_analytics_dashboard
+      DB_PORT: 3306
+      HTTP2_PORT: 4002
+      INSTANCE_NAME: app3
+    restart: always
+    networks:
+      - analytics-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4002/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+  haproxy:
+    image: haproxy:2.9-alpine
+    container_name: analytics-haproxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8404:8404"
+    volumes:
+      - ./approach4/Proxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./approach4/certs:/etc/haproxy/certs:ro
+    depends_on:
+    - app1
+    - app2
+    - app3
+    restart: always
+    networks:
+      - analytics-network
+  h2load:
+    image: alpine:latest
+    container_name: analytics-h2load
+    command: sh -c "apk add --no-cache nghttp2 curl dos2unix && dos2unix /app/h2load-test.sh && chmod +x /app/h2load-test.sh && /app/h2load-test.sh"
+    volumes:
+      - .:/app
+      - ./approach4/certs:/certs:ro
+    working_dir: /app
+    networks:
+      - analytics-network
+    # depends_on:
+    #   app1:
+    #     condition: service_started
+    depends_on:
+      haproxy:
+        condition: service_started
+    environment:
+      TARGET_HOST: haproxy
+    restart: "no"  # Changed from unless-stopped - run once only
+volumes:
+  mysql_data:
+networks:
+  analytics-network:
+    driver: bridge  

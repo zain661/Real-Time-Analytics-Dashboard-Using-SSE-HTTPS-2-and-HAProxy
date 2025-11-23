@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "real_time_analytics_dashboard",
+    "host": "127.0.0.1",
+    "port": "3306",
+    "dialect": "mysql"
+  },
+
+  "docker": {
+  "username": "root",
+  "password": "root",
+  "database": "real_time_analytics_dashboard",
+  "host": "db",
+  "port": "3306",
+  "dialect": "mysql"
+}
+
+}
