@@ -2,7 +2,7 @@
 
 The main idea of this project is to build a real-time analytics dashboard that collects metrics from many servers, processes them, and displays updated results for engineers monitoring system performance. The system receives data from thousands of servers, each sending metrics such as CPU or memory usage. The goal is to design and test different communication and data ingestion patterns to see how each affects performance, latency, and scalability.
 
-# 🎯 Chosen Scenario: HTTP/2 Streaming with SSE, Stateful In-Memory Aggregation, and MySQL
+## 🎯 Chosen Scenario: HTTP/2 Streaming with SSE, Stateful In-Memory Aggregation, and MySQL
 
 ### **Why This Approach?**
 
@@ -166,14 +166,19 @@ Conclusion: The proxy enables the system to achieve massive throughput gains and
 ## To run the project with a proxy
 ### 1. Clone the repository
 git clone <repository-url>
+
 cd Real-Time-Analytics-Dashboard
 
 ### 2. Start db, app servers, haproxy, and H2Load testing with Docker Compose
 docker-compose build
+
 docker-compose up -d db app1 app2 app3 haproxy
-docker-compose up h2load  
+
+docker-compose up h2load 
+
 
 For more Details, this is my YouTube Video link: https://www.youtube.com/watch?v=SHUl8RtHpQM
+
 
 
 
