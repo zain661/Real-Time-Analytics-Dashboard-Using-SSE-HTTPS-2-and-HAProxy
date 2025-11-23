@@ -1,5 +1,6 @@
-YouTube Video link: https://www.youtube.com/watch?v=SHUl8RtHpQM
- # Approach 4: HTTP/2 + SSE + Stateful In-Memory Aggregation + MySQL
+ ## Real-Time Analytics Dashboard Report
+
+The main idea of this project is to build a real-time analytics dashboard that collects metrics from many servers, processes them, and displays updated results for engineers monitoring system performance. The system receives data from thousands of servers, each sending metrics such as CPU or memory usage. The goal is to design and test different communication and data ingestion patterns to see how each affects performance, latency, and scalability.
 
 ## 🎯 Chosen Scenario: HTTP/2 Streaming with SSE, Stateful In-Memory Aggregation, and MySQL
 
@@ -160,13 +161,16 @@ Performance Offload: Handles connection management, optimising application serve
 The benchmark highlights the dramatic performance improvement achieved by routing traffic through the proxy layer:
 <img width="801" height="356" alt="image" src="https://github.com/user-attachments/assets/c2643aac-678f-4bb3-88d5-c333143644a2" />
 Conclusion: The proxy enables the system to achieve massive throughput gains and minimal connection latency by optimising connection management and offloading tasks.
-# 1. Clone the repository
+1. Clone the repository
 git clone <repository-url>
 cd Real-Time-Analytics-Dashboard
 
-# 2. Start db, app servers, haproxy, and H2Load testing with Docker Compose
+2. Start db, app servers, haproxy, and H2Load testing with Docker Compose
 docker-compose build
 docker-compose up -d db app1 app2 app3 haproxy
 docker-compose up h2load  
+
+For more Details, this is my YouTube Video link: https://www.youtube.com/watch?v=SHUl8RtHpQM
+
 
 
