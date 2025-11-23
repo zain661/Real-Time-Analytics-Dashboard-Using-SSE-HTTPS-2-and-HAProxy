@@ -164,12 +164,9 @@ Conclusion: The proxy enables the system to achieve massive throughput gains and
 git clone <repository-url>
 cd Real-Time-Analytics-Dashboard
 
-# 2. Start db, app server and H2Load testing with Docker Compose
-docker-compose up --remove-orphans -d db app1
-
+# 2. Start db, app servers, haproxy, and H2Load testing with Docker Compose
+docker-compose build
+docker-compose up -d db app1 app2 app3 haproxy
 docker-compose up h2load  
 
-# That's it! The system will:
-# - Start MySQL database on port 3306
-# - Run database migrations automatically
-# - Start the HTTP/2 server on port 4002
+
